@@ -1,3 +1,4 @@
+import "../(db)/mongodb-connection";
 import { NextResponse } from "next/server";
 
 export async function GET() {
