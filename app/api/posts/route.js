@@ -1,23 +1,14 @@
 import "../(db)/mongodb-connection";
 import { NextResponse } from "next/server";
+import PostModel from "./postModel";
 
 export async function GET() {
   try {
-    return NextResponse.json([
-      {
-        id: 1,
-        title: "Hello World",
-        body: "This is a post",
-      },
-      {
-        id: 2,
-        title: "Hello World 2",
-        body: "This is another post",
-      },
-    ]);
+    const posts = await PostModel.find();
+    return NextResponse.json(posts);
   } catch (error) {
     return NextResponse.json({
-      message: "Server Error",
+      message: error.message,
       status: 500,
     });
   }
