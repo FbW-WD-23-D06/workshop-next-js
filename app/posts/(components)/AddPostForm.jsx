@@ -1,33 +1,35 @@
 import { revalidatePath } from "next/cache";
+import PostModel from "../../api/posts/postModel";
+import { NextResponse } from "next/server";
 
 async function addPost(formData) {
   "use server";
-  let data;
-  let errorMessage;
-
+  const title = formData.get("title");
+  const body = formData.get("body");
   try {
-    const response = await fetch("http://localhost:3000/api/posts/add-post", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: formData.get("title"),
-        body: formData.get("body"),
-      }),
-    });
+    const existingPost = await PostModel.findOne({ title });
 
-    if (!response.ok) {
-      throw new Error("Failed to add post");
+    if (existingPost) {
+      return NextResponse.json({
+        message: "Post already exists",
+        status: 400,
+      });
     }
 
-    data = await response.json();
+    const newPost = await PostModel.create({
+      title,
+      body,
+    });
+
+    NextResponse.json({
+      message: "Post Added",
+      newPost,
+      status: 200,
+    });
+
     revalidatePath("/posts");
   } catch (err) {
     console.log(err);
-    errorMessage = err.message;
-  } finally {
-    return { data, errorMessage };
   }
 }
 
