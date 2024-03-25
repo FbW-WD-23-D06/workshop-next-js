@@ -31,3 +31,9 @@ body {
     text-wrap: balance;
   }
 }
+
+@layer components {
+  .skeleton-loading {
+    @apply bg-gray-100 border shadow animate-pulse;
+  }
+}

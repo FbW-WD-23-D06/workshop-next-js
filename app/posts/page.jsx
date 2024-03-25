@@ -1,7 +1,12 @@
-async function getData() {
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function getPosts() {
   let data;
   let errorMessage;
   try {
+    await delay(3000);
     const respone = await fetch("http://localhost:3000/api/posts");
     if (!respone.ok) {
       throw new Error("Failed to fetch data");
@@ -16,9 +21,7 @@ async function getData() {
 }
 
 export default async function Posts() {
-  const { data, errorMessage } = await getData();
-  console.log("🚀 ~ Posts ~ errorMessage:", errorMessage);
-  console.log("🚀 ~ Posts ~ data:", data);
+  const { data, errorMessage } = await getPosts();
   return (
     <main className="flex min-h-screen flex-col items-center  p-10">
       <h1>Posts</h1>
