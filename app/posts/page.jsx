@@ -1,12 +1,13 @@
-
 async function getPosts() {
   let data;
   let errorMessage;
-  if (!respone.ok) {
-    throw new Error("Failed to fetch data");
-  }
+
   try {
-    const respone = await fetch("http://localhost:3000/api/posts");
+    const respone = await fetch("http://localhost:3000/api/posts", {
+      // in Next js we can use revalidate to re-fetch the data after a certain time
+      // beacause the data will be automatically cached
+      next: { revalidate: 60},
+    });
     if (!respone.ok) {
       throw new Error("Failed to fetch data");
     }

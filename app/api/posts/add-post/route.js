@@ -11,7 +11,6 @@ export async function POST(request) {
     if (existingPost) {
       return NextResponse.json({
         message: "Post already exists",
-        newPost,
         status: 400,
       });
     }
