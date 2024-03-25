@@ -1,12 +1,11 @@
-function delay(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 async function getPosts() {
   let data;
   let errorMessage;
+  if (!respone.ok) {
+    throw new Error("Failed to fetch data");
+  }
   try {
-    await delay(3000);
     const respone = await fetch("http://localhost:3000/api/posts");
     if (!respone.ok) {
       throw new Error("Failed to fetch data");
